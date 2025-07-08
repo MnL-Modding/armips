@@ -1,12 +1,5 @@
 name: CMake
-
-on:
-  push:
-    tags:
-      - '*'
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -32,7 +25,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        fetch-tags: true
+        # fetch-tags: true
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -53,33 +46,17 @@ jobs:
       run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure
 
     - name: Install
-      shell: bash
       run: |
         cmake --build '${{github.workspace}}/build' --config ${{env.BUILD_TYPE}} --target install
-        VERSION=$(git -C '${{github.workspace}}' describe --first-parent)
-        PLATFORM=$(echo ${{matrix.config.name}} | tr '[:upper:]' '[:lower:'] | sed 's/ /_/g')
-        echo "FILENAME=armips_${VERSION}_${PLATFORM}" >> $GITHUB_ENV
-        echo "RELEASENAME=armips_${VERSION}" >> $GITHUB_ENV
 
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: ${{env.FILENAME}}
+        name: ${{matrix.config.name}} build
         path: ${{github.workspace}}/install
 
-    - name: Archive Release
-      uses: thedoctor0/zip-release@0.7.6
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        type: 'zip'
-        filename: ${{env.FILENAME}}.zip
-        directory: '${{github.workspace}}/install'
-
-    - name: Release
+    - name: Upload release assets
       uses: softprops/action-gh-release@v2
-      if: startsWith(github.ref, 'refs/tags/')
+      if: "startsWith(github.ref, 'refs/tags/') && (matrix.config.name == 'Ubuntu clang' || matrix.config.name == 'Windows clang')"
       with:
-        name: ${{env.RELEASENAME}}
-        prerelease: true
-        files: ${{github.workspace}}/install/${{env.FILENAME}}.zip
-    
+        files: ${{github.workspace}}/install/armips*
