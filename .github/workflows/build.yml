@@ -49,6 +49,16 @@ jobs:
       run: |
         cmake --build '${{github.workspace}}/build' --config ${{env.BUILD_TYPE}} --target install
 
+    - name: Sign executable
+      uses: skymatic/code-sign-action@v3
+      if: "runner.os == 'Windows'"
+      with:
+        certificate: '${{ secrets.WINDOWS_CODE_SIGN_CERT }}'
+        password: '${{ secrets.WINDOWS_CODE_SIGN_CERT_PASSWORD }}'
+        certificatename: '${{ secrets.WINDOWS_CODE_SIGN_CERT_NAME }}'
+        timestampUrl: 'http://timestamp.digicert.com'
+        folder: '${{github.workspace}}/install'
+
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
