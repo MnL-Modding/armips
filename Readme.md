@@ -1,7 +1,7 @@
-# armips assembler v0.11
-* Author: Kingcom
-* Source: https://github.com/Kingcom/armips
-* Automated builds: http://buildbot.orphis.net/armips
+# armips assembler (M&L Modding fork)
+* Authors: Kingcom, M&L Modding organization
+* Source: https://github.com/Kingcom/armips (original), https://github.com/MnL-Modding/armips (M&L Modding fork)
+* Downloads: https://github.com/MnL-Modding/armips/releases
 
 # 1. Introduction
 
