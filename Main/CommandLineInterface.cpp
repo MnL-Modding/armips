@@ -9,8 +9,8 @@
 
 static void printUsage(const std::string &executableName)
 {
-	Logger::printLine("armips assembler v%d.%d.%d (%s %s) by Kingcom",
-		ARMIPS_VERSION_MAJOR, ARMIPS_VERSION_MINOR, ARMIPS_VERSION_REVISION, __DATE__, __TIME__);
+	Logger::printLine("armips assembler v%d.%d.%d-%s (%s %s) by Kingcom (M&L Modding fork)",
+		ARMIPS_VERSION_MAJOR, ARMIPS_VERSION_MINOR, ARMIPS_VERSION_REVISION, ARMIPS_VERSION_METADATA, __DATE__, __TIME__);
 	Logger::printLine("Usage: %s [optional parameters] <FILE>", executableName);
 	Logger::printLine("");
 	Logger::printLine("Optional parameters:");
