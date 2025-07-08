@@ -7,7 +7,7 @@
 
 #include <tinyformat.h>
 
-const char validSymbolCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.";
+const char validSymbolCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.$";
 
 bool operator<(SymbolKey const& lhs, SymbolKey const& rhs)
 {
@@ -140,7 +140,7 @@ bool SymbolTable::isValidSymbolCharacter(char character, bool first)
 {
 	if ((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z')) return true;
 	if (!first && (character >= '0' && character <= '9')) return true;
-	if (character == '_' || character == '.') return true;
+	if (character == '_' || character == '.' || character == '$') return true;
 	if (character == '@') return true;
 	return false;
 }
